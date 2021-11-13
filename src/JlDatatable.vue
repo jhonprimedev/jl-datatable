@@ -75,6 +75,7 @@ export default {
         if(!isUrl){
           throw Error('The url is invalid.');  
         }
+        return true;
       }
     },
     requestOptions: {
@@ -131,6 +132,7 @@ export default {
         }else{
           throw Error('Has no assigned columns.');            
         }
+        return true;
       }
     },
     lengthMenu: {
@@ -142,6 +144,7 @@ export default {
             throw Error('The menu is not a whole number.');
           }
         }
+        return true;
       }
     },
     isLengthMenu: {
@@ -155,6 +158,7 @@ export default {
         if(!Number.isInteger(value)){
           throw Error('The pageLength is not a whole number.');
         }
+        return true;
       }
     },
     isSearch: {
