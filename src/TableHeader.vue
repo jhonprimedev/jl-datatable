@@ -11,6 +11,10 @@
     </thead>
 </template>
 <script>
+import imgSortAsc from './assets/images/sort_asc.png';
+import imgSortDesc from './assets/images/sort_desc.png';
+import imgSortBoth from './assets/images/sort_both.png';
+
 export default {
     props: {
         columns: {
@@ -26,7 +30,7 @@ export default {
             sortBy: this.isSort ? (this.sortDt.sortBy ? this.sortDt.sortBy : null) : null,
             sortable: this.isSort ? this.isSortable() : true,
             iconSortPath: this.isSort ? this.isIconSortPath() : null,
-            iconSortBothPath: window.require('./assets/images/sort_both.png')
+            iconSortBothPath: imgSortBoth
         }
     },
 
@@ -36,7 +40,7 @@ export default {
                 if(column.isSort === true || column.isSort === undefined){
                     if(!column.isAction === true){
                         this.sortable = this.sortBy !== column.key ? true : !sortable;
-                        this.iconSortPath = this.sortable ? window.require('./assets/images/sort_asc.png') : window.require('./assets/images/sort_desc.png');
+                        this.iconSortPath = this.sortable ? imgSortAsc: imgSortDesc;
                         this.sortBy = column.key;
     
                         this.$emit('changeSort', {
@@ -70,9 +74,9 @@ export default {
         },
         isIconSortPath(){
             if(this.sortDt.sort === 'ASC'){                
-                return window.require('./assets/images/sort_asc.png');
+                return imgSortAsc;
             }else if (this.sortDt.sort === 'DESC'){                
-                return window.require('./assets/images/sort_desc.png');
+                return imgSortDesc;
             }
             return null;
         },
