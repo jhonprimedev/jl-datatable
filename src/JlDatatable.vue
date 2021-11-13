@@ -42,7 +42,7 @@ import Footer from './Footer.vue';
 import Table from './Table.vue';
 
 export default {
-  name:'jl-datatable',  
+  name:'JlDatatable',  
   emits: [
     'error', 
     'countPageChanged', 

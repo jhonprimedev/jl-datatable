@@ -1,12 +1,13 @@
 import vue from 'rollup-plugin-vue'
 import buble from 'rollup-plugin-buble'
 
-
+import styles from "rollup-plugin-styles";
 export default {
     input: 'src/index.js',
     output: {
-        name: 'Datatable',
+        name: 'JlDatatable',
         exports: 'named',
+        assetFileNames: "[name]-[hash][extname]",
     },
     plugins: [
         vue({
@@ -16,6 +17,7 @@ export default {
                 isProduction: true,
             },
         }),
-        buble({transforms: { forOf: false, asyncAwait: false }})
+        buble({transforms: { forOf: false, asyncAwait: false }}),
+        styles()
     ],
 }
