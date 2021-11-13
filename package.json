@@ -1,14 +1,49 @@
 {
   "name": "jl-datatable",
+  "description": "A datatable server side mode for vuejs ⚙️",
   "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+  "private": false,
+  "main": "dist/jl-datatable.umd.js",
+  "module": "dist/jl-datatable.esm.js",
+  "unpkg": "dist/jl-datatable.min.js",
+  "browser": {
+    "./sfc": "src/jl-datatable.vue"
   },
+  "files": [
+    "dist/*",
+    "src/*"
+  ],
+  "scripts": {
+    "lint": "vue-cli-service lint",
+    "build": "npm run build:unpkg & npm run build:es & npm run build:umd",
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/vue-public-test.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/vue-public-test.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/vue-public-test.min.js"
+  },
+  "keywords": [
+    "vue3",
+    "vue",
+    "vue-data-table",
+    "datatable-server-side",
+    "grid",
+    "datatable",
+    "pagination",
+    "vue component"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "author": "Jhoni Larico <jhoni.jlm97@gmail.com>",
+  "license": "MIT",
   "dependencies": {
+    "bootstrap": "^5.0.0-alpha1",
     "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
     "vue": "^3.0.0"
   },
   "devDependencies": {
@@ -18,7 +53,11 @@
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "rollup": "^2.60.0",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-styles": "^3.14.1",
+    "rollup-plugin-vue": "^6.0.0"
   },
   "eslintConfig": {
     "root": true,
