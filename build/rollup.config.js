@@ -1,7 +1,8 @@
 import vue from 'rollup-plugin-vue'
 // import buble from 'rollup-plugin-buble'
-
-import styles from "rollup-plugin-styles";
+import { terser } from "rollup-plugin-terser";
+import postcss from "rollup-plugin-postcss";
+// import styles from "rollup-plugin-styles";
 
 // import externalGlobals from "rollup-plugin-external-globals";
 export default {
@@ -14,7 +15,7 @@ export default {
     output: {
         name: 'JlDatatable',
         exports: 'named',
-        assetFileNames: "[name]-[hash][extname]",
+        // assetFileNames: "[name]-[hash][extname]",
         globals : {
             'lodash/debounce': 'debounce',
             'vue': 'vue'
@@ -30,7 +31,9 @@ export default {
         }),
         // buble({transforms: { forOf: false, asyncAwait: false }}),
         // buble(),
-        styles(),
+        // styles(),
         // externalGlobals({})
+        terser(),
+      postcss(),
     ],
 }
