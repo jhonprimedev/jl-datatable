@@ -1,5 +1,5 @@
 import vue from 'rollup-plugin-vue'
-import buble from 'rollup-plugin-buble'
+// import buble from 'rollup-plugin-buble'
 
 import styles from "rollup-plugin-styles";
 
@@ -28,7 +28,8 @@ export default {
                 isProduction: true,
             },
         }),
-        buble({transforms: { forOf: false, asyncAwait: false }}),
+        // buble({transforms: { forOf: false, asyncAwait: false }}),
+        // buble(),
         styles(),
         // externalGlobals({})
     ],
