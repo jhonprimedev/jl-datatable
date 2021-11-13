@@ -1,6 +1,7 @@
 import vue from 'rollup-plugin-vue'
 import { terser } from "rollup-plugin-terser";
 import postcss from "rollup-plugin-postcss";
+import images from 'rollup-plugin-image-files';
 
 export default {
     input: 'src/index.js',
@@ -27,5 +28,6 @@ export default {
         }),
         terser(),
         postcss(),
+        images()
     ],
 }
