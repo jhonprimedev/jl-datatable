@@ -7,7 +7,7 @@
   "module": "dist/jl-datatable.esm.js",
   "unpkg": "dist/jl-datatable.min.js",
   "browser": {
-    "./sfc": "src/jl-datatable.vue"
+    "./sfc": "src/JlDatatable.vue"
   },
   "files": [
     "dist/*",
