@@ -9,10 +9,12 @@
 It was made for `vuejs 3` and to work with `laravel 8`, however it can work with other backend programming languages, as long as the json format returned by the server is respected.
 
 ## 🚀 There is an online demo:
-### Front End
-[![Edit test-project](https://codesandbox.io/static/img/play-codesandbox.svg)]()
+### DEMO 👉 [Online](https://xenodochial-turing-7457ba.netlify.app)
+
+### Front End  👉 [Repository Github](https://github.com/jhonijlm/vuejs-datatable-app)
 
 ### Backend with Laravel 👉 [Repository Github](https://github.com/jhonijlm/laravel-datatable-api)
+
 
 ## Basic usage
 ```html
