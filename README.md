@@ -40,9 +40,9 @@ It was made for `vuejs 3` and to work with `laravel 8`, however it can work with
 ## Installing
 Install the JlDatatable package:
 ```sh
-npm install @jhonijlm/jl-datatable
+npm install jl-datatable
 # or
-yarn add @jhonijlm/jl-datatable
+yarn add jl-datatable
 ```
 
 Register it as you usually would:
