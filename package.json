@@ -32,10 +32,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/jhonijlm/jl-datatable"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/jhonijlm/jl-datatable/issues"
   },
   "homepage": "",
   "author": "Jhoni Larico <jhoni.jlm97@gmail.com>",
