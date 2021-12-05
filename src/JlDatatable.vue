@@ -115,6 +115,10 @@ export default {
               if(!(column.isSort === true || column.isSort === false || column.isSort === undefined)){
                   throw Error('The isSort property of columns, is not boolean.');            
               }
+
+              if(!(column.isHide === true || column.isHide === false || column.isHide === undefined)){
+                  throw Error('The isHide property of columns, is not boolean.');            
+              }
   
               if(!(typeof column.width === 'string' ||  column.width === undefined)){
                   throw Error('The width property of columns, is not string.');
@@ -183,6 +187,10 @@ export default {
           search: null
         }
       },
+    },
+    isReload: {
+      type: Boolean,      
+      default: false
     }
   },
   components: {
@@ -214,37 +222,39 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted() {    
     this.getEntries();
   },
   methods: {
     async getEntries(){
-      if (this.urlBase) {      
-        const urlFull = new URL(this.urlBase);
+      if (this.urlBase) {
+        let paramString = this.urlBase.split('?')[1];
+        const urlSearchParams = new URLSearchParams(paramString);
 
         const parameters = new Map() ;
-        const paramPage = urlFull.searchParams.get("page");        
+        const paramPage = urlSearchParams.get("page");
         parameters.set('page', paramPage ? paramPage : 1);
         parameters.set('pageLength', this.menu);
         parameters.set('sortBy', this.sortBy);
         parameters.set('sortColumns', this.columns.map(column => ((column.isAction === false || column.isAction === undefined) && (column.isSort === true || column.isSort === undefined)) ? column.key : "").filter(txt => txt != "").join(','));
         parameters.set('sort', this.sort);
-        parameters.set('search', this.search);        
+        parameters.set('search', this.search);
         parameters.set('searchColumns', this.columns.map(column => ((column.isAction === false || column.isAction === undefined) && (column.isSearch === true || column.isSearch === undefined)) ? column.key : "").filter(txt => txt != "").join(','));
 
-        urlFull.search = new URLSearchParams(parameters).toString();        
-        const request = new Request(urlFull, this.requestOptions);      
-        
-        
+        const params = new URLSearchParams(parameters).toString();
+        const urlFull = `${this.url}?${params}`;
+        const request = new Request(urlFull, this.requestOptions);
+
+
         this.$emit('gettingEntries', request);
 
         const reqPromise = fetch(request);
-        
+
         this.isLoading = true;
         const response = await reqPromise;
         if(response.ok){
           const data = await response.json() ;
-          
+
           this.$emit('entriesFetched', {request, data});
           this.data = data.data;
           this.metaData.from = data.from ? data.from : 0;
@@ -263,7 +273,6 @@ export default {
           });
         }
       }
-
     },
     setPage(data){      
       this.urlBase = data.url;
@@ -348,6 +357,13 @@ export default {
       }else{
           throw Error('The lengthMenu has no elements.');
       }
+    }
+  },
+  watch: {
+    isReload(newed){            
+      if(newed){        
+        this.getEntries();
+      }      
     }
   }
 }

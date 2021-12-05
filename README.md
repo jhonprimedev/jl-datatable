@@ -63,7 +63,7 @@ app.mount('#app')
 Property Name | Type | Required | Default Value | Description
 --- | --- | --- | --- | ---
 `url` | String | Yes | NULL | URL to get entries.
-requestOptions | Object | No | `{method: 'GET'}` | Allows to add more parameters in the request to be made to the server.
+`requestOptions` | Object | No | `{method: 'GET'}` | Allows to add more parameters in the request to be made to the server.
 `columns` | Array Object | Yes | `[]` | 	An array of objects that specifies how to render each column.
 `pageLength` | Integer | No | `10` | Length of records shown in the table.
 `lengthMenu` | Array Integer | No | `[10, 20, 50, 100]` | List of lengths for the menu to display in the table.
@@ -72,6 +72,7 @@ requestOptions | Object | No | `{method: 'GET'}` | Allows to add more parameters
 `sortDt` | Object | No | `{ sortBy: 'firstColumn', 'sort': 'ASC'}` | Sort the records, for sort you have two options of ascending (ASC) and descending (DESC) sorting.
 `isSort` | Boolean | No | `True` | If true, ordering is permitted in general.
 `language` | Object | No | English | Change displayed texts to another language.
+`isReload` | Boolean | No | `False` | Reload the data from the datatable.
 
 
 ### Prop: `columns`
@@ -81,6 +82,7 @@ Property Name | Type | Required | Default Value | Description
 `key` | String | Yes | NULL | Allows to identify the data to be obtained by means of key and value.
 `isSort` | Boolean | No | `True` | If true, sorting is activated for the column.
 `isSearch` | Boolean | No | `True` |  If true, the search for the column is activated.
+`isHide` | Boolean | No | `False` |  If true, the column is hidden.
 `width` | String | No | NULL | Allows you to set a width size for the column.
 `isAction` | Boolean | No | `False` | If true, the option to place a component to the column is enabled.
 `component` | Object | No | NULL | Allows you to add a component, e.g. edit and delete buttons. This can only be used if `isAction` is true.
@@ -99,7 +101,7 @@ Property Name | Type | Required | Default Value | Description
 Name | Return | Description
 --- | --- | --- 
 `countPageChanged` |  Integer |  Returns the number of records to display in the table.
-`search` | String | Returns the text entered in the search, has a delay of 300 ms.
+`search` | String | Returns the text entered in the search, has a delay of 500 ms.
 `gettingEntries` | Object | Returns the request to be made to the server.
 `entriesFetched` | Object | Returns the request made to the server and the data.
 `columnClicked` | Object | Returns this data isSort, sort and column when clicking on a column.

@@ -2,7 +2,7 @@
     <thead class="table-light">
         <tr>
             <template v-for="(column, index) in columns" :key="index" >
-                <th v-if="typeof column === 'object'" @click="sort(column, sortable)" :width="column.width"  >
+                <th v-if="typeof column === 'object' && (column.isHide == false || column.isHide == undefined)" @click="sort(column, sortable)" :width="column.width"  >
                     {{ column.title}}
                     <img v-if="isSort &&!column.isAction" :src="sortBy == column.key ? (iconSortPath ? iconSortPath : iconSortBothPath) : iconSortBothPath" >
                 </th>

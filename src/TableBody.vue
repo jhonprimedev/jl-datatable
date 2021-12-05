@@ -15,11 +15,11 @@
             <tr>
             <template v-for="(column, index2) in columns" :key="index2">   
                 <template v-if="Object.keys(row).find(key => key === column.key)">
-                    <td v-if="!column.isAction">
+                    <td v-if="!column.isAction && (column.isHide == false || column.isHide == undefined)">
                         {{ row[column.key]}}
                     </td> 
                     <template v-else>      
-                        <td v-if="typeof column.component ==='object'">
+                        <td v-if="typeof column.component ==='object' && (column.isHide == false || column.isHide == undefined)">
                             <component                                                                    
                                 :is="column.component" 
                                 :row="row"

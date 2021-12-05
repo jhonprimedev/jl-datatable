@@ -47,7 +47,7 @@ export default {
         },
         inputSearch: debounce(function() {            
             this.$emit('onSearch', this.search);
-        }, 300),        
+        }, 500),        
     },    
     computed: {
         formatLang(){
