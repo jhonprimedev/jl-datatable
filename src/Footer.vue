@@ -1,61 +1,145 @@
 <template>
     <div class="d-flex flex-column flex-lg-row align-items-center justify-content-between">
-        <div> {{formatLang.labelInfo1}} {{metaData.from}} {{formatLang.labelInfo2}} {{metaData.to}} {{formatLang.labelInfo3}} {{metaData.total}} {{formatLang.labelInfo4}}</div>
+        <div>Showing {{ startF }} to {{ toF }} of {{ recordsFiltered }} entries {{ filteredStr }}</div>
         <nav>
             <ul class="pagination">
-                <template v-for="(link, index) in links" :key="index">
-                    <li v-if="!link.url" class="page-item disabled" >
-                        <a
-                            v-if="!link.url"
-                            class="page-link"                            
-                            v-html="link.label"
-                        ></a>
-                    </li>
-
-                    <li v-else class="page-item" :class="{'active' : link.active}">
-                        <a
-                            class="page-link"
-                            @click="selectPage(link.url)"
-                            href="#"
-                            v-html="link.label"
-                        ></a>
-                    </li>
-                </template>
+                <li class="page-item" :class="before.class">
+                    <a class="page-link"  @click="updatedPagination(before)" >Previous</a>
+                </li>
+                <li v-for="(pagination, index) in paginations" :key="index"  class="page-item" :class="pagination.class">
+                    <a class="page-link"  @click="updatedPagination(pagination)">{{ pagination.number }}</a>
+                </li>                
+                <li class="page-item" :class="next.class">
+                    <a class="page-link" @click="updatedPagination(next)" >Next</a>
+                </li>
             </ul>
         </nav>
-    </div>
+    </div>    
 </template>
-
 <script>
+import { reactive, toRefs, watch } from 'vue';
 export default {
+    name: 'Footer',
     props: {
-        metaData: Object,
-        links: Array,
-        language: Object
-    },    
-    methods: {
-        selectPage(url){            
-
-            this.$emit('onChangePage', {
-                url,
-                isPrevious: this.links[0] ? true : false,
-                isNext: this.links[this.links.length - 1] ? true : false,
-                isPaginate: (!this.isPrevious && !this.isNext) ? true : false,
-            });
-        },
-        
+        length: Number,
+        start: Number,
+        recordsFiltered: Number,
+        recordsTotal: Number
     },
-    computed: {
-        formatLang(){
-            const labelSplit = this.language.info.split('_FROM_').join(',').split('_TO_').join(',').split('_TOTAL_').join(',').split(',');
+    emits: ['onUpdatedPagination'],
+    setup(props, { emit }){
+        
+        const data = reactive({
+            paginations: [],
+            start: props.start,
+            length: props.length,            
+            number: 1,
+            next: {
+                number: 0,
+                class: 'disabled'
+            },
+            before: {
+                number: 0,
+                class: 'disabled'
+            },
+            startF: 0,
+            toF: 0,
+            filteredStr: ''
+        })
+
+        const getPaginations = () => {
             
-            return {
-                labelInfo1: labelSplit.length > 0 ? labelSplit[0] : null,
-                labelInfo2: labelSplit.length > 1 ? labelSplit[1] : null,
-                labelInfo3: labelSplit.length > 2 ? labelSplit[2] : null,
-                labelInfo4: labelSplit.length > 3 ? labelSplit[3] : null,
-            };
+            let paginationsCount = Math.ceil(data.recordsFiltered / data.length);
+            let listPaginations = [...Array(paginationsCount - 1 + 1).keys()].map(x => x + 1);
+            if(listPaginations.length > 7){
+
+                // to initlal
+                if(data.number >= 1 && data.number <= 4){
+                    listPaginations = [...listPaginations.slice(0, 5), 0, listPaginations.at(-1)];
+                }else if(data.number <=  listPaginations.at(-1) && data.number >= listPaginations.at(-4)){
+                    // to final
+                    listPaginations = [listPaginations.at(0), 0, ...listPaginations.slice(listPaginations.at(-1) - 5, listPaginations.at(-1))];
+                }else {
+                    // to mid
+                    listPaginations = [listPaginations.at(0), 0, ...listPaginations.slice(data.number -2, data.number + 1) , 0, listPaginations.at(-1)];
+                }             
+            }
+            
+            data.paginations = listPaginations.map((pagination) => {
+                return {
+                    number: pagination != 0 ? pagination : '...',
+                    class: pagination != 0 ? data.number == pagination ? 'active' : '': 'disabled'                    
+                }
+            });
+            
+            const before = data.paginations.find(p => p.class == 'active' && p.number > 1);            
+            const next = data.paginations.find(p => p.class == 'active' && p.number < data.paginations.at(-1).number);
+            if(before){
+                data.before.number = before.number - 1;
+                data.before.class = '';
+            }else{
+                data.before = {
+                    number: 0,
+                    class: 'disabled'
+                };
+            }
+
+            if(next){
+                data.next.number = next.number + 1;
+                data.next.class = '';
+            }else{
+                data.next = {
+                    number: 0,
+                    class: 'disabled'
+                };
+            }
+            
+            // footer string
+            if(data.number == listPaginations.at(-1)){                
+                data.startF = data.start + 1;
+                data.toF = data.recordsFiltered;
+            }else{
+                data.startF = data.start + 1;
+                data.toF = data.number * data.length;
+            }
+
+            // footer strinf filtered            
+            data. filteredStr = data.recordsFiltered != data.recordsTotal ? `(filtered from ${data.recordsTotal} total entries)` : '';
+        }
+
+        const updatedPagination = (pagination) => {            
+            if(pagination.number != '...' && data.number != pagination.number){                
+                data.number = pagination.number;                
+                data.start = (data.length * pagination.number) - data.length;
+                
+                emit('onUpdatedPagination', data.start);
+            }
+        }
+
+
+        watch(props, () => {         
+            if(data.start != props.start){
+                data.number = 1;
+            }
+
+            data.start = props.start; 
+            data.recordsFiltered = props.recordsFiltered; 
+            data.recordsTotal = props.recordsTotal; 
+            data.length = props.length; 
+            getPaginations();
+        });
+
+        return {
+            ...toRefs(data),
+            updatedPagination
         }
     }
 }
 </script>
+
+<style lang="css" scoped>
+    li {
+        cursor: pointer;
+    }
+</style>>
+    

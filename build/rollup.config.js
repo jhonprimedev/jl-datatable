@@ -8,6 +8,7 @@ export default {
     external: [
         'lodash/debounce',
         'vue',
+        'qs',
         'bootstrap/dist/css/bootstrap.min.css'
     ],
     output: {
@@ -15,7 +16,8 @@ export default {
         exports: 'named',        
         globals : {
             'lodash/debounce': 'debounce',
-            'vue': 'vue'
+            'qs': 'qs',
+            'vue': 'vue',
         },
     },
     plugins: [

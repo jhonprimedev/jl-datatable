@@ -1,10 +1,10 @@
-import component from './JlDatatable.vue'
+import component from './Main.vue'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function install(Vue) {
     if (install.installed) return
     install.installed = true
-    Vue.component('JlDatatable', component)
+    Vue.component('Main', component)
 }
 
 const plugin = {
