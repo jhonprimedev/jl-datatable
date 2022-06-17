@@ -1,7 +1,7 @@
 {
   "name": "jl-datatable",
   "description": "A datatable server side rendering mode - Vue JS 3 ⚙️",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": false,
   "main": "dist/jl-datatable.umd.js",
   "module": "dist/jl-datatable.esm.js",
